@@ -1,10 +1,11 @@
 package com.azure.spring.samples.controller;
 
-import com.azure.spring.samples.model.TodoItem;
 import com.microsoft.azure.storage.CloudStorageAccount;
-import com.microsoft.azure.storage.OperationContext;
 import com.microsoft.azure.storage.StorageException;
-import com.microsoft.azure.storage.blob.*;
+import com.microsoft.azure.storage.blob.CloudBlobClient;
+import com.microsoft.azure.storage.blob.CloudBlobContainer;
+import com.microsoft.azure.storage.blob.CloudBlockBlob;
+import com.microsoft.azure.storage.blob.ListBlobItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -15,18 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.Writer;
-import java.util.Scanner;
-
 @RestController
 public class StorageAccountController {
 
     private static Logger logger = LoggerFactory.getLogger(StorageAccountController.class);
 
-    public static final String storageConnectionString = "DefaultEndpointsProtocol=https;AccountName=storagetodos;AccountKey=12nO4rvjxljS/qVuzhWk6jPjcYQ8JU3VZqRKU/Uacgj4+AxOLptseTxMcHSovYyDY3ndtOg0Y+QUuco2SGlndg==;EndpointSuffix=core.windows.net";
+    public static final String storageConnectionString = "DefaultEndpointsProtocol=https;AccountName=storagetodos;" +
+            "AccountKey=12nO4rvjxljS/qVuzhWk6jPjcYQ8JU3VZqRKU/Uacgj4+AxOLptseTxMcHSovYyDY3ndtOg0Y+QUuco2SGlndg==;" +
+            "EndpointSuffix=core.windows.net";
 
     public StorageAccountController() {
     }
@@ -57,7 +54,8 @@ public class StorageAccountController {
             logger.info("Content: " + content);
 
         } catch (StorageException ex) {
-            logger.error(String.format("Error returned from the service. Http code: %d and error code: %s", ex.getHttpStatusCode(), ex.getErrorCode()));
+            logger.error(String.format("Error returned from the service. Http code: %d and error code: %s",
+                    ex.getHttpStatusCode(), ex.getErrorCode()));
         } catch (Exception ex) {
             logger.error(ex.getMessage());
         } finally {

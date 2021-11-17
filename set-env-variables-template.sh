@@ -7,3 +7,6 @@ export COSMOS_DATABASE=todosDB
 export RESOURCEGROUP_NAME=cosmosdb-dprapas-rg
 export WEBAPP_NAME=todos-webapp
 export REGION=northeurope
+
+# App Configuration Service
+export APP_CONFIGURATION_CONNECTION_STRING='Endpoint=https://todos-app-config.azconfig.io;Id=WRZZ-l8-s0:jO0Ww39kBxpl/5F1lX6L;Secret=7xc4Q+LuzaAqpoy9Ou1tXyguCNTtYeXlRljTLzO6Tcc='
