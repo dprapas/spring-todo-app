@@ -161,6 +161,10 @@
                             <name>JAVA_OPTS</name>
                             <value>-Dserver.port=80</value>
                         </property>
+                        <property>
+                            <name>APP_CONFIGURATION_CONNECTION_STRING</name>
+                            <value>${APP_CONFIGURATION_CONNECTION_STRING}</value>
+                        </property>
                     </appSettings>
 
                 </configuration>
