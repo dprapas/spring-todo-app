@@ -47,7 +47,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'todos-webapp'
+          app-name: 'dp-todo-app'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D524DC18C3B44F9F8B3384E062A527C0 }}
           package: '*.jar'
