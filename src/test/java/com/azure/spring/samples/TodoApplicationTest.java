@@ -94,13 +94,8 @@ public class TodoApplicationTest {
     }
 
     @Test
-    public void shouldRenderDefaultTemplate() throws Exception {
-        mockMvc.perform(get("/")).andDo(print()).andExpect(status().isOk()).andExpect(forwardedUrl("index.html"));
-    }
-
-    @Test
     public void canGetTodoItem() throws Exception {
-        mockMvc.perform(get(String.format("/api/todolist/%s", mockItemA.getId()))).andDo(print())
+        mockMvc.perform(get(String.format("/api/todos/%s", mockItemA.getId()))).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json(String.format("{\"id\":\"%s\",\"description\":\"%s\",\"owner\":\"%s\"}",
                         mockItemA.getId(), mockItemA.getDescription(), mockItemA.getOwner())));
@@ -108,7 +103,7 @@ public class TodoApplicationTest {
 
     @Test
     public void canGetAllTodoItems() throws Exception {
-        mockMvc.perform(get("/api/todolist")).andDo(print()).andExpect(status().isOk()).andExpect(content()
+        mockMvc.perform(get("/api/todos")).andDo(print()).andExpect(status().isOk()).andExpect(content()
                 .json(String.format("[{\"id\":\"%s\"}, {\"id\":\"%s\"}]", mockItemA.getId(), mockItemB.getId())));
     }
 
@@ -116,28 +111,10 @@ public class TodoApplicationTest {
     public void canSaveTodoItems() throws Exception {
         final int size = repository.size();
         final TodoItem mockItemC = new TodoItem(null, MOCK_DESC + "-C", MOCK_OWNER + "-C");
-        mockMvc.perform(post("/api/todolist").contentType(MediaType.APPLICATION_JSON_VALUE).content(String
+        mockMvc.perform(post("/api/todos").contentType(MediaType.APPLICATION_JSON_VALUE).content(String
                 .format("{\"description\":\"%s\",\"owner\":\"%s\"}", mockItemC.getDescription(), mockItemC.getOwner())))
                 .andDo(print()).andExpect(status().isCreated());
         assertTrue(size + 1 == repository.size());
-    }
-
-    @Test
-    public void canDeleteTodoItems() throws Exception {
-        final int size = repository.size();
-        mockMvc.perform(delete(String.format("/api/todolist/%s", mockItemA.getId()))).andDo(print())
-                .andExpect(status().isOk());
-        assertTrue(size - 1 == repository.size());
-        assertFalse(repository.containsKey(mockItemA.getId()));
-    }
-
-    @Test
-    public void canUpdateTodoItems() throws Exception {
-        final String newItemJsonString = String.format("{\"id\":\"%s\",\"description\":\"%s\",\"owner\":\"%s\"}",
-                mockItemA.getId(), mockItemA.getDescription(), "New Owner");
-        mockMvc.perform(put("/api/todolist").contentType(MediaType.APPLICATION_JSON_VALUE).content(newItemJsonString))
-                .andDo(print()).andExpect(status().isOk());
-        assertTrue(repository.get(mockItemA.getId()).getOwner().equals("New Owner"));
     }
 
     @Test
@@ -147,20 +124,5 @@ public class TodoApplicationTest {
                 .andExpect(status().isNotFound());
         assertTrue(size == repository.size());
     }
-
-    /**
-     * PUT should be idempotent.
-     */
-    @Test
-    public void idempotenceOfPut() throws Exception {
-        final String newItemJsonString = String.format("{\"id\":\"%s\",\"description\":\"%s\",\"owner\":\"%s\"}",
-                mockItemA.getId(), mockItemA.getDescription(), "New Owner");
-        mockMvc.perform(put("/api/todolist").contentType(MediaType.APPLICATION_JSON_VALUE).content(newItemJsonString))
-                .andDo(print()).andExpect(status().isOk());
-        final TodoItem firstRes = repository.get(mockItemA.getId());
-        mockMvc.perform(put("/api/todolist").contentType(MediaType.APPLICATION_JSON_VALUE).content(newItemJsonString))
-                .andDo(print()).andExpect(status().isOk());
-        final TodoItem secondRes = repository.get(mockItemA.getId());
-        assertTrue(firstRes.equals(secondRes));
-    }
+    
 }
