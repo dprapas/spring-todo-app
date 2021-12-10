@@ -124,5 +124,5 @@ public class TodoApplicationTest {
                 .andExpect(status().isNotFound());
         assertTrue(size == repository.size());
     }
-    
+
 }
