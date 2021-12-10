@@ -24,8 +24,8 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
         env:
-          APP_CONFIGURATION_CONNECTION_STRING: 'Endpoint=https://dp-todo-app-config.azconfig.io\;Id=Kq3a-l8-s0:sC/1/HewtGy1KQ3gDDHY\;Secret=0jBP2iStt6Dp7CoS7hoWYfFridWlj/+juBR0eCpduFg='
-          
+          APP_CONFIGURATION_CONNECTION_STRING: 'Endpoint=https://dp-todo-app-config.azconfig.io;Id=Kq3a-l8-s0:sC/1/HewtGy1KQ3gDDHY;Secret=0jBP2iStt6Dp7CoS7hoWYfFridWlj/+juBR0eCpduFg='
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
