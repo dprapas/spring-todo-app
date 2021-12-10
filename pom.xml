@@ -50,9 +50,13 @@
             <artifactId>azure-spring-boot-starter-cosmos</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.microsoft.azure</groupId>
-            <artifactId>azure-storage</artifactId>
-            <version>8.4.0</version>
+            <groupId>com.azure.spring</groupId>
+            <artifactId>azure-spring-boot-starter-storage</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-core</artifactId>
+            <version>1.23.0</version>
         </dependency>
         <dependency>
             <groupId>com.azure</groupId>
